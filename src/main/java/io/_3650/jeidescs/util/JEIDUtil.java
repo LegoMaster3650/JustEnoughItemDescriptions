@@ -1,10 +1,10 @@
 package io._3650.jeidescs.util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -12,12 +12,12 @@ public class JEIDUtil {
 	
 	public static <T> List<T> optionalJsonArray(JsonElement json, Function<JsonElement, T> func) {
 		if (json instanceof JsonArray arr) {
-			ArrayList<T> result = new ArrayList<>(arr.size());
+			ImmutableList.Builder<T> result = ImmutableList.builderWithExpectedSize(arr.size());
 			for (var elem : arr) {
 				T t = func.apply(elem);
 				if (t != null) result.add(t); //allow items to be skipped by returning null
 			}
-			return result;
+			return result.build();
 		} else {
 			T t = func.apply(json);
 			if (t != null) return List.of(t);

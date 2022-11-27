@@ -59,73 +59,132 @@ public class DescriptionJson {
 			JsonObject json = jsonElem.getAsJsonObject();
 			ImmutableMultimap.Builder<List<ItemStack>, List<Component>> items = ImmutableMultimap.builder();
 			ImmutableMultimap.Builder<List<FluidStack>, List<Component>> fluids = ImmutableMultimap.builder();
-			JsonArray entries = GsonHelper.getAsJsonArray(json, "entries");
-			for (var entryElem : entries) {
-				JsonObject entry = entryElem.getAsJsonObject();
-				
-				List<Component> components;
-				if (entry.has("text")) {
-					components = JEIDUtil.optionalJsonArray(entry.get("text"), txt -> {
-						if (GsonHelper.isStringValue(txt)) {
-							return Component.literal(txt.getAsString());
-						} else return null;
-					});
-				} else if (entry.has("translate")) {
-					components = JEIDUtil.optionalJsonArray(entry.get("translate"), key -> {
-						if (GsonHelper.isStringValue(key)) {
-							return Component.translatable(key.getAsString());
-						} else return null;
-					});
-				} else if (entry.has("component")) {
-					components = JEIDUtil.optionalJsonArray(entry.get("component"), Component.Serializer::fromJson);
-				} else throw new JsonParseException("No description component found");
-				
-				if (entry.has("item")) {
+			if (GsonHelper.isArrayNode(json, "entries")) {
+				JsonArray entries = GsonHelper.getAsJsonArray(json, "entries");
+				for (var entryElem : entries) {
+					JsonObject entry = entryElem.getAsJsonObject();
+					
+					List<Component> components;
+					if (entry.has("text")) {
+						components = JEIDUtil.optionalJsonArray(entry.get("text"), txt -> {
+							if (GsonHelper.isStringValue(txt)) {
+								return Component.literal(txt.getAsString());
+							} else return null;
+						});
+					} else if (entry.has("translate")) {
+						components = JEIDUtil.optionalJsonArray(entry.get("translate"), key -> {
+							if (GsonHelper.isStringValue(key)) {
+								return Component.translatable(key.getAsString());
+							} else return null;
+						});
+					} else if (entry.has("component")) {
+						components = JEIDUtil.optionalJsonArray(entry.get("component"), Component.Serializer::fromJson);
+					} else throw new JsonParseException("No description component found");
+					
+					if (entry.has("item")) {
+						ImmutableList.Builder<ItemStack> itemsList = ImmutableList.builder();
+						var flag = JEIDUtil.holder(false);
+						JEIDUtil.forEachOptionalJsonArray(entry.get("item"), elem -> {
+							if (!GsonHelper.isStringValue(elem)) throw new JsonParseException("Element is not plain text: " + elem.toString());
+							String itemName = elem.getAsString();
+							if (itemName.startsWith("#")) {
+								String tagName = itemName.substring(1);
+								if (!ResourceLocation.isValidResourceLocation(tagName)) throw new JsonParseException(tagName + " is not a valid tag name");
+								TagKey<Item> tagKey = ItemTags.create(new ResourceLocation(tagName));
+								if (!ForgeRegistries.ITEMS.tags().isKnownTagName(tagKey)) throw new JsonParseException("Item Tag " + tagName + " does not exist");
+								ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(tagKey);
+								int amount = GsonHelper.getAsInt(json, "amount", 1);
+								for (Item item : tag) itemsList.add(new ItemStack(item, amount));
+								flag.value = true;
+							} else {
+								if (!ResourceLocation.isValidResourceLocation(itemName)) throw new JsonParseException(itemName + " is not a valid item name");
+								Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName));
+								if (item == null) throw new JsonParseException("Item " + itemName + " does not exist");
+								itemsList.add(new ItemStack(item, GsonHelper.getAsInt(entry, "amount", 1)));
+								flag.value = true;
+							}
+						});
+						if (flag.value) items.put(itemsList.build(), components);
+					} else if (entry.has("fluid")) {
+						ImmutableList.Builder<FluidStack> fluidsList = ImmutableList.builder();
+						var flag = JEIDUtil.holder(false);
+						JEIDUtil.forEachOptionalJsonArray(entry.get("fluid"), elem -> {
+							if (!GsonHelper.isStringValue(elem)) throw new JsonParseException("Element is not plain text: " + elem.toString());
+							String fluidName = elem.getAsString();
+							if (fluidName.startsWith("#")) {
+								String tagName = fluidName.substring(1);
+								if (!ResourceLocation.isValidResourceLocation(tagName)) throw new JsonParseException(tagName + " is not a valid tag name");
+								TagKey<Fluid> tagKey = FluidTags.create(new ResourceLocation(tagName));
+								if (!ForgeRegistries.FLUIDS.tags().isKnownTagName(tagKey)) throw new JsonParseException("Fluid Tag " + tagName + " does not exist");
+								ITag<Fluid> tag = ForgeRegistries.FLUIDS.tags().getTag(tagKey);
+								int amount = GsonHelper.getAsInt(json, "amount", 1000);
+								for (Fluid fluid : tag) fluidsList.add(new FluidStack(fluid, amount));
+								flag.value = true;
+							} else {
+								if (!ResourceLocation.isValidResourceLocation(fluidName)) throw new JsonParseException(fluidName + " is not a valid fluid name");
+								Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidName));
+								if (fluid == null) throw new JsonParseException("Fluid " + fluidName + " does not exist");
+								fluidsList.add(new FluidStack(fluid, GsonHelper.getAsInt(entry, "amount", 1000)));
+								flag.value = true;
+							}
+						});
+						if (flag.value) fluids.put(fluidsList.build(), components);
+					}
+				}
+			}
+			if (GsonHelper.isObjectNode(json, "items")) {
+				var itemSet = GsonHelper.getAsJsonObject(json, "items").entrySet();
+				int amount = GsonHelper.getAsInt(json, "amount", 1);
+				for (var entry : itemSet) {
+					List<Component> components = JEIDUtil.optionalJsonArray(entry.getValue(), Component.Serializer::fromJson);
+					String[] itemNames = entry.getKey().split(",");
 					ImmutableList.Builder<ItemStack> itemsList = ImmutableList.builder();
 					var flag = JEIDUtil.holder(false);
-					JEIDUtil.forEachOptionalJsonArray(entry.get("item"), elem -> {
-						if (!GsonHelper.isStringValue(elem)) throw new JsonParseException("Element is not plain text: " + elem.toString());
-						String itemName = elem.getAsString();
+					for (String itemName : itemNames) {
 						if (itemName.startsWith("#")) {
 							String tagName = itemName.substring(1);
 							if (!ResourceLocation.isValidResourceLocation(tagName)) throw new JsonParseException(tagName + " is not a valid tag name");
 							TagKey<Item> tagKey = ItemTags.create(new ResourceLocation(tagName));
 							if (!ForgeRegistries.ITEMS.tags().isKnownTagName(tagKey)) throw new JsonParseException("Item Tag " + tagName + " does not exist");
 							ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(tagKey);
-							int amount = GsonHelper.getAsInt(json, "amount", 1);
 							for (Item item : tag) itemsList.add(new ItemStack(item, amount));
 							flag.value = true;
 						} else {
+							if (!ResourceLocation.isValidResourceLocation(itemName)) throw new JsonParseException(itemName + " is not a valid item name");
 							Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName));
 							if (item == null) throw new JsonParseException("Item " + itemName + " does not exist");
-							itemsList.add(new ItemStack(item, GsonHelper.getAsInt(entry, "amount", 1)));
+							itemsList.add(new ItemStack(item, amount));
 							flag.value = true;
 						}
-					});
+					}
 					if (flag.value) items.put(itemsList.build(), components);
-				} else if (entry.has("fluid")) {
+				}
+			}
+			if (GsonHelper.isObjectNode(json, "fluids")) {
+				var fluidSet = GsonHelper.getAsJsonObject(json, "fluids").entrySet();
+				int amount = GsonHelper.getAsInt(json, "amount", 1000);
+				for (var entry : fluidSet) {
+					List<Component> components = JEIDUtil.optionalJsonArray(entry.getValue(), Component.Serializer::fromJson);
+					String[] fluidNames = entry.getKey().split(",");
 					ImmutableList.Builder<FluidStack> fluidsList = ImmutableList.builder();
 					var flag = JEIDUtil.holder(false);
-					JEIDUtil.forEachOptionalJsonArray(entry.get("fluid"), elem -> {
-						if (!GsonHelper.isStringValue(elem)) throw new JsonParseException("Element is not plain text: " + elem.toString());
-						String fluidName = elem.getAsString();
+					for (String fluidName : fluidNames) {
 						if (fluidName.startsWith("#")) {
 							String tagName = fluidName.substring(1);
 							if (!ResourceLocation.isValidResourceLocation(tagName)) throw new JsonParseException(tagName + " is not a valid tag name");
 							TagKey<Fluid> tagKey = FluidTags.create(new ResourceLocation(tagName));
 							if (!ForgeRegistries.FLUIDS.tags().isKnownTagName(tagKey)) throw new JsonParseException("Fluid Tag " + tagName + " does not exist");
 							ITag<Fluid> tag = ForgeRegistries.FLUIDS.tags().getTag(tagKey);
-							int amount = GsonHelper.getAsInt(json, "amount", 1000);
-							for (Fluid fluid : tag) fluidsList.add(new FluidStack(fluid, amount));
+							for (Fluid item : tag) fluidsList.add(new FluidStack(item, amount));
 							flag.value = true;
 						} else {
 							if (!ResourceLocation.isValidResourceLocation(fluidName)) throw new JsonParseException(fluidName + " is not a valid fluid name");
 							Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidName));
 							if (fluid == null) throw new JsonParseException("Fluid " + fluidName + " does not exist");
-							fluidsList.add(new FluidStack(fluid, GsonHelper.getAsInt(entry, "amount", 1000)));
+							fluidsList.add(new FluidStack(fluid, amount));
 							flag.value = true;
 						}
-					});
+					}
 					if (flag.value) fluids.put(fluidsList.build(), components);
 				}
 			}

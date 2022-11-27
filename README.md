@@ -12,7 +12,9 @@ You can also specify an `amount` tag for the item count or fluid amount (in mb, 
 Then, you specify the description to add to the given resource.<br>
 `text`: A shortcut for raw text, simple as that<br>
 `translate`: A shortcut for using a translation key, allowing localization of the descriptions<br>
-`component`: Writing a fully functional component, just like the ones used on signs or in /tellraw. Use the `extra` tag to add multiple components to one line, with the extra components being directly added to the end of the component containing them. You can also write an array[] of components as a shortcut for the first component with all others in the array as its' `extra` tag. Do note that JEI does not support special hover or click events, so even though they can be specified they will have no effect.
+`component`: Writing a fully functional component, just like the ones used on signs or in /tellraw. Use the `extra` tag to add multiple components to one line, with the extra components being directly added to the end of the component containing them. You can also write an array[] of components as a shortcut for the first component with all others in the array as its' `extra` tag. Do note that JEI does not support special hover or click events, so even though they can be specified they will have no effect.<br>
+<br>
+(New in 1.1.0) For quick and compact entries, make an `items` or `fluids` tag, allowing you to enter one or more resource/tag ids (seperated with commas) as a key and a valid component as a value. (EX: `"Text"`, `["A", "B", {"text":"C"}]`, `{"translate": "translation.key.here"}`)
 
 # Sample Config
 	{
@@ -85,5 +87,15 @@ Then, you specify the description to add to the given resource.<br>
 					}
 				]
 			}
-		]
+		],
+		"items": {
+			"dirt": "Testing!",
+			"#anvil,#forge:dyes/white,iron_block": "Test2",
+			"diamond": {"translate": "item.minecraft.diamond"},
+			"emerald": ["A", "B", {"translate": "item.minecraft.emerald"}, ["C", "D"]]
+		},
+		"fluids": {
+			"water": "test",
+			"#lava": "Wow!"
+		}
 	}
