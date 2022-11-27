@@ -4,7 +4,7 @@ Simple JSON-based item/fluid descriptions for [JEI](https://curseforge.com/minec
 
 # Usage
 
-Create JSON files in the `/config/jeid/` folder.<br>
+Create JSON files in the `/config/jeidescs/` folder.<br>
 Make an array[] under the `entries` tag.<br>
 The entry format contains an `item` or `fluid` tag specifying one or more item/fluid<br>
 For the item or fluid, you can either specify a regular id or a `#tag` id<br>
