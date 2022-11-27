@@ -4,12 +4,12 @@ license="MIT License"
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/"
 
 [[mods]]
-modId="jeid"
+modId="jeidescs"
 version="${file.jarVersion}"
-displayName="Just Enough Item Descriptions (JEID)"
+displayName="Just Enough Item Descriptions (JEIDescs)"
 #updateJSONURL="https://change.me.example.invalid/updates.json"
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
-#logoFile="jeid.png"
+#logoFile="jeidescs.png"
 #credits="Joe Mama"
 authors="LegoMaster3650"
 displayTest="MATCH_VERSION"
@@ -17,19 +17,19 @@ description='''
 Yeah this is a mod it does stuff and things
 '''
 
-[[dependencies.jeid]]
+[[dependencies.jeidescs]]
     modId="forge"
     mandatory=true
     versionRange="[43,)"
     ordering="NONE"
     side="BOTH"
 	
-[[dependencies.jeid]]
+[[dependencies.jeidescs]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.19.2,1.20)"
     ordering="NONE"
     side="BOTH"
 
-[modproperties.jeid]
+[modproperties.jeidescs]
 	catalogueItemIcon="minecraft:paper"

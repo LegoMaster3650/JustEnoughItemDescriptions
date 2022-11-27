@@ -1,4 +1,4 @@
-package io._3650.jeid.util;
+package io._3650.jeidescs.util;
 
 import java.util.ArrayList;
 import java.util.List;

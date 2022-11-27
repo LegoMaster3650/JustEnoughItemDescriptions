@@ -1,4 +1,4 @@
-package io._3650.jeid.config;
+package io._3650.jeidescs.config;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -14,7 +14,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import io._3650.jeid.util.JEIDUtil;
+import io._3650.jeidescs.util.JEIDUtil;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

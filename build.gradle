@@ -6,8 +6,8 @@ plugins {
 }
 
 version = '1.0.0'
-group = 'io._3650.jeid'
-archivesBaseName = 'jeid'
+group = 'io._3650.jeidescs'
+archivesBaseName = 'jeidescs'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -25,10 +25,10 @@ minecraft {
 
 			property 'forge.logging.console.level', 'debug'
 
-			property 'forge.enabledGameTestNamespaces', 'jeid'
+			property 'forge.enabledGameTestNamespaces', 'jeidescs'
 
 			mods {
-				jeid {
+				jeidescs {
 					source sourceSets.main
 				}
 			}
@@ -41,10 +41,10 @@ minecraft {
 
 			property 'forge.logging.console.level', 'debug'
 
-			property 'forge.enabledGameTestNamespaces', 'jeid'
+			property 'forge.enabledGameTestNamespaces', 'jeidescs'
 
 			mods {
-				jeid {
+				jeidescs {
 					source sourceSets.main
 				}
 			}
@@ -57,10 +57,10 @@ minecraft {
 
 			property 'forge.logging.console.level', 'debug'
 
-			property 'forge.enabledGameTestNamespaces', 'jeid'
+			property 'forge.enabledGameTestNamespaces', 'jeidescs'
 
 			mods {
-				jeid {
+				jeidescs {
 					source sourceSets.main
 				}
 			}
@@ -73,10 +73,10 @@ minecraft {
 
 			property 'forge.logging.console.level', 'debug'
 
-			args '--mod', 'jeid', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+			args '--mod', 'jeidescs', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
 			mods {
-				jeid {
+				jeidescs {
 					source sourceSets.main
 				}
 			}
@@ -119,7 +119,7 @@ dependencies {
 jar {
 	manifest {
 		attributes([
-				"Specification-Title"     : "jeid",
+				"Specification-Title"     : "jeidescs",
 				"Specification-Vendor"    : "LegoMaster3650",
 				"Specification-Version"   : "1", // We are version 1 of ourselves
 				"Implementation-Title"    : project.name,

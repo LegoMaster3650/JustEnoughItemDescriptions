@@ -1,10 +1,10 @@
-package io._3650.jeid.jei;
+package io._3650.jeidescs.jei;
 
 import java.nio.file.NotDirectoryException;
 
-import io._3650.jeid.JEID;
-import io._3650.jeid.config.Config;
-import io._3650.jeid.config.DescriptionConfig;
+import io._3650.jeidescs.JEIDescs;
+import io._3650.jeidescs.config.Config;
+import io._3650.jeidescs.config.DescriptionConfig;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -14,11 +14,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 @JeiPlugin
-public class JEIDPlugin implements IModPlugin {
+public class JEIDescsPlugin implements IModPlugin {
 	
 	@Override
 	public ResourceLocation getPluginUid() {
-		return new ResourceLocation(JEID.MOD_ID, "descriptions");
+		return new ResourceLocation(JEIDescs.MOD_ID, "descriptions");
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public class JEIDPlugin implements IModPlugin {
 				}
 			});
 		} catch (NotDirectoryException e) {
-			JEID.LOGGER.error("File is not a directory: ", e);
+			JEIDescs.LOGGER.error("File is not a directory: ", e);
 		}
 	}
 	

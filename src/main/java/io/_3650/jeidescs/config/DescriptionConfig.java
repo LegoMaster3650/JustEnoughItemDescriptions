@@ -1,4 +1,4 @@
-package io._3650.jeid.config;
+package io._3650.jeidescs.config;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io._3650.jeid.JEID;
+import io._3650.jeidescs.JEIDescs;
 
 public class DescriptionConfig {
 	
@@ -27,7 +27,7 @@ public class DescriptionConfig {
 			try {
 				return GSON.fromJson(FileUtils.readFileToString(file, Charset.defaultCharset()), DescriptionJson.class);
 			} catch (Exception e) {
-				JEID.LOGGER.error("Config read failed for File: " + file, e);
+				JEIDescs.LOGGER.error("Config read failed for File: " + file, e);
 			}
 		}
 		

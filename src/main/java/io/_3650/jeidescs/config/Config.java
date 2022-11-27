@@ -1,4 +1,4 @@
-package io._3650.jeid.config;
+package io._3650.jeidescs.config;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,12 +8,12 @@ import java.util.Arrays;
 
 import com.google.common.collect.ImmutableList;
 
-import io._3650.jeid.JEID;
+import io._3650.jeidescs.JEIDescs;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 public class Config {
 	
-	private static final Path DEFAULT_FOLDER = FMLPaths.CONFIGDIR.get().resolve(JEID.MOD_ID);
+	private static final Path DEFAULT_FOLDER = FMLPaths.CONFIGDIR.get().resolve(JEIDescs.MOD_ID);
 	private static final FileFilter JSON_FILTER = file -> {
 		return file.isFile() && file.getName().endsWith(".json");
 	};
@@ -42,7 +42,7 @@ public class Config {
 //	private static Config instance;
 	
 	public static Config reload() throws NotDirectoryException {
-		JEID.LOGGER.info("Reloading Just Enough Item Descriptions Config");
+		JEIDescs.LOGGER.info("Reloading Just Enough Item Descriptions Config");
 		return new Config(DEFAULT_FOLDER);
 	}
 	

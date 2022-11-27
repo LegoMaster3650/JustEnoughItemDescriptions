@@ -1,17 +1,17 @@
-package io._3650.jeid;
+package io._3650.jeidescs;
 
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 
-@Mod(JEID.MOD_ID)
-public class JEID {
+@Mod(JEIDescs.MOD_ID)
+public class JEIDescs {
 	
-	public static final String MOD_ID = "jeid";
+	public static final String MOD_ID = "jeidescs";
 	
 	public static final Logger LOGGER = LogUtils.getLogger();
 	
-	public JEID() {
+	public JEIDescs() {
 		//Literally nothing to do here :skull:
 	}
 }
