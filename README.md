@@ -4,14 +4,14 @@ Simple JSON-based item/fluid descriptions for [JEI](https://curseforge.com/minec
 
 # Usage
 
-Create JSON files in the `/config/jeid/` folder.
-Make an array[] under the `entries` tag.
-The entry format contains an `item` or `fluid` tag specifying one or more item/fluid
-For the item or fluid, you can either specify a regular id or a `#tag` id
-You can also specify an `amount` tag for the item count or fluid amount (in mb, or 1/1000 of a bucket)
-Then, you specify the description to add to the given resource.
-`text`: A shortcut for raw text, simple as that
-`translate`: A shortcut for using a translation key, allowing localization of the descriptions
+Create JSON files in the `/config/jeid/` folder.<br>
+Make an array[] under the `entries` tag.<br>
+The entry format contains an `item` or `fluid` tag specifying one or more item/fluid<br>
+For the item or fluid, you can either specify a regular id or a `#tag` id<br>
+You can also specify an `amount` tag for the item count or fluid amount (in mb, or 1/1000 of a bucket)<br>
+Then, you specify the description to add to the given resource.<br>
+`text`: A shortcut for raw text, simple as that<br>
+`translate`: A shortcut for using a translation key, allowing localization of the descriptions<br>
 `component`: Writing a fully functional component, just like the ones used on signs or in /tellraw. Use the `extra` tag to add multiple components to one line, with the extra components being directly added to the end of the component containing them. Do note that JEI does not support special hover or click events, so even though they can be specified they will have no effect.
 
 # Sample Config
