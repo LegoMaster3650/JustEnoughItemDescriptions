@@ -77,11 +77,7 @@ public class DescriptionJson {
 						} else return null;
 					});
 				} else if (entry.has("component")) {
-					components = JEIDUtil.optionalJsonArray(entry.get("component"), comE -> {
-						if (comE instanceof JsonObject com) {
-							return Component.Serializer.fromJson(com);
-						} else return null;
-					});
+					components = JEIDUtil.optionalJsonArray(entry.get("component"), Component.Serializer::fromJson);
 				} else throw new JsonParseException("No description component found");
 				
 				if (entry.has("item")) {
@@ -135,7 +131,7 @@ public class DescriptionJson {
 			}
 			return new DescriptionJson(items, fluids);
 		}
-
+		
 		@SuppressWarnings("deprecation")
 		@Override
 		public JsonElement serialize(DescriptionJson src, Type typeOfSrc, JsonSerializationContext context) {
@@ -144,23 +140,35 @@ public class DescriptionJson {
 			for (var entry : src.items.entries()) {
 				JsonObject entryJson = new JsonObject();
 				List<ItemStack> stacks = entry.getKey();
-				ItemStack stack = stacks.get(1); // TODO rework
-				entryJson.addProperty("item", Registry.ITEM.getKey(stack.getItem()).toString());
-				if (stack.getCount() != 1) entryJson.addProperty("amount", stack.getCount());
+				ItemStack stack1 = stacks.get(1);
+				if (stacks.size() == 1) entryJson.addProperty("item", Registry.ITEM.getKey(stack1.getItem()).toString());
+				else {
+					JsonArray jsonStacks = new JsonArray(stacks.size());
+					for (var stack : stacks) jsonStacks.add(Registry.ITEM.getKey(stack.getItem()).toString());
+					entryJson.add("item", jsonStacks);
+				}
+				if (stack1.getCount() > 1) entryJson.addProperty("amount", stack1.getCount());
 				List<Component> components = entry.getValue();
 				JsonArray comps = new JsonArray(components.size());
 				for (var component : components) comps.add(Component.Serializer.toJsonTree(component));
+				entryJson.add("component", comps);
 				entries.add(entryJson);
 			}
 			for (var entry : src.fluids.entries()) {
 				JsonObject entryJson = new JsonObject();
 				List<FluidStack> stacks = entry.getKey();
-				FluidStack stack = stacks.get(1); // TODO rework
-				entryJson.addProperty("fluid", Registry.FLUID.getKey(stack.getFluid()).toString());
-				if (stack.getAmount() != 1) entryJson.addProperty("amount", stack.getAmount());
+				FluidStack stack1 = stacks.get(1);
+				if (stacks.size() == 1) entryJson.addProperty("fluid", Registry.FLUID.getKey(stack1.getFluid()).toString());
+				else {
+					JsonArray jsonStacks = new JsonArray(stacks.size());
+					for (var stack : stacks) jsonStacks.add(Registry.FLUID.getKey(stack.getFluid()).toString());
+					entryJson.add("fluid", jsonStacks);
+				}
+				if (stack1.getAmount() > 1) entryJson.addProperty("amount", stack1.getAmount());
 				List<Component> components = entry.getValue();
 				JsonArray comps = new JsonArray(components.size());
 				for (var component : components) comps.add(Component.Serializer.toJsonTree(component));
+				entryJson.add("component", comps);
 				entries.add(entryJson);
 			}
 			return json;

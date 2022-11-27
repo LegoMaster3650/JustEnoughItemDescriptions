@@ -18,18 +18,25 @@ JEI Item/Fluid descriptions in a simple JSON format
 '''
 
 [[dependencies.jeidescs]]
-    modId="forge"
-    mandatory=true
-    versionRange="[43,)"
-    ordering="NONE"
-    side="BOTH"
+	modId="forge"
+	mandatory=true
+	versionRange="[43,)"
+	ordering="NONE"
+	side="BOTH"
 	
 [[dependencies.jeidescs]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.19.2,1.20)"
-    ordering="NONE"
-    side="BOTH"
+	modId="minecraft"
+	mandatory=true
+	versionRange="[1.19.2,1.20)"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.jeidescs]]
+	modId="jei"
+	mandatory=true
+	versionRange="[11,)"
+	ordering="NONE"
+	side="BOTH"
 
 [modproperties.jeidescs]
 	catalogueItemIcon="minecraft:paper"
