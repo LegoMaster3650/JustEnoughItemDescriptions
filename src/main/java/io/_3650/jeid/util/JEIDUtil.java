@@ -18,7 +18,11 @@ public class JEIDUtil {
 				if (t != null) result.add(t); //allow items to be skipped by returning null
 			}
 			return result;
-		} else return List.of(func.apply(json));
+		} else {
+			T t = func.apply(json);
+			if (t != null) return List.of(t);
+			else return List.of();
+		}
 	}
 	
 	public static void forEachOptionalJsonArray(JsonElement json, Consumer<JsonElement> consumer) {
