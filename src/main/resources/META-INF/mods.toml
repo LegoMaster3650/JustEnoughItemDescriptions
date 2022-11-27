@@ -1,20 +1,20 @@
 modLoader="javafml"
 loaderVersion="[43,)"
 license="MIT License"
-#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/"
+issueTrackerURL="https://github.com/LegoMaster3650/JustEnoughItemDescriptions/issues"
 
 [[mods]]
 modId="jeidescs"
 version="${file.jarVersion}"
 displayName="Just Enough Item Descriptions (JEIDescs)"
 #updateJSONURL="https://change.me.example.invalid/updates.json"
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
-#logoFile="jeidescs.png"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/jeidescs"
+logoFile="jeidescs.png"
 #credits="Joe Mama"
 authors="LegoMaster3650"
 displayTest="MATCH_VERSION"
 description='''
-Yeah this is a mod it does stuff and things
+JEI Item/Fluid descriptions in a simple JSON format
 '''
 
 [[dependencies.jeidescs]]
