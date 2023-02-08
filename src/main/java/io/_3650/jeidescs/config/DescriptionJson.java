@@ -15,7 +15,6 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import io._3650.jeidescs.util.JEIDUtil;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
@@ -200,10 +199,10 @@ public class DescriptionJson {
 				JsonObject entryJson = new JsonObject();
 				List<ItemStack> stacks = entry.getKey();
 				ItemStack stack1 = stacks.get(1);
-				if (stacks.size() == 1) entryJson.addProperty("item", Registry.ITEM.getKey(stack1.getItem()).toString());
+				if (stacks.size() == 1) entryJson.addProperty("item", ForgeRegistries.ITEMS.getKey(stack1.getItem()).toString());
 				else {
 					JsonArray jsonStacks = new JsonArray(stacks.size());
-					for (var stack : stacks) jsonStacks.add(Registry.ITEM.getKey(stack.getItem()).toString());
+					for (var stack : stacks) jsonStacks.add(ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
 					entryJson.add("item", jsonStacks);
 				}
 				if (stack1.getCount() > 1) entryJson.addProperty("amount", stack1.getCount());
@@ -217,10 +216,10 @@ public class DescriptionJson {
 				JsonObject entryJson = new JsonObject();
 				List<FluidStack> stacks = entry.getKey();
 				FluidStack stack1 = stacks.get(1);
-				if (stacks.size() == 1) entryJson.addProperty("fluid", Registry.FLUID.getKey(stack1.getFluid()).toString());
+				if (stacks.size() == 1) entryJson.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(stack1.getFluid()).toString());
 				else {
 					JsonArray jsonStacks = new JsonArray(stacks.size());
-					for (var stack : stacks) jsonStacks.add(Registry.FLUID.getKey(stack.getFluid()).toString());
+					for (var stack : stacks) jsonStacks.add(ForgeRegistries.FLUIDS.getKey(stack.getFluid()).toString());
 					entryJson.add("fluid", jsonStacks);
 				}
 				if (stack1.getAmount() > 1) entryJson.addProperty("amount", stack1.getAmount());

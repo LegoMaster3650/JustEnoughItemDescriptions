@@ -20,21 +20,21 @@ JEI Item/Fluid descriptions in a simple JSON format
 [[dependencies.jeidescs]]
 	modId="forge"
 	mandatory=true
-	versionRange="[43,)"
+	versionRange="[44,)"
 	ordering="NONE"
 	side="BOTH"
 	
 [[dependencies.jeidescs]]
 	modId="minecraft"
 	mandatory=true
-	versionRange="[1.19.2,1.20)"
+	versionRange="[1.19.3,1.20)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.jeidescs]]
 	modId="jei"
 	mandatory=true
-	versionRange="[11,)"
+	versionRange="[12,)"
 	ordering="NONE"
 	side="BOTH"
 

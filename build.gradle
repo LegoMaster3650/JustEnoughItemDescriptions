@@ -13,7 +13,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-	mappings channel: 'parchment', version: '2022.11.20-1.19.2'
+	mappings channel: 'parchment', version: '2023.02.05-1.19.3'
 
 	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -106,7 +106,7 @@ repositories {
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.19.2-43.1.7'
+	minecraft 'net.minecraftforge:forge:1.19.3-44.1.16'
 	
 	// compile against the JEI API but do not include it at runtime
 	compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
